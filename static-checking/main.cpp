@@ -14,11 +14,12 @@ class DataManager {
 
     for (int i = 0; i < size; i++) {
       if (i % 2 == 0) data[i] = i * 2;
+      else data[i] = 0;
     }
   }
 
   void print() {
-    for (int i = 0; i <= size; i++) {
+    for (int i = 0; i < size; i++) {
       std::cout << data[i] << " ";
     }
     std::cout << '\n';
@@ -26,25 +27,22 @@ class DataManager {
 
   int getValue(int index) {
     if (index < size) return data[index];
-
     return data[0];
   }
 
-  ~DataManager() { delete data; }
+  ~DataManager() { delete[] data; }
 };
 
 void unsafeFunction() {
-  char buffer[10];
-
+  char buffer[50];
   strcpy(buffer, "This is way too long for buffer");
-
   std::cout << buffer << '\n';
 }
 
 int globalVar = 0;
 
 int compute(int x) {
-  int result;
+  int result = 0;
 
   if (x > 10)
     result = x * 2;
@@ -62,6 +60,9 @@ void memoryLeakDemo() {
   *leak2 = 20;
 
   std::cout << leak1[0] + *leak2 << '\n';
+
+  delete[] leak1;
+  delete leak2;
 }
 
 void vectorIssues() {
@@ -70,10 +71,10 @@ void vectorIssues() {
   v.push_back(1);
   v.push_back(2);
 
-  std::cout << v[10] << '\n';
+  std::cout << v[0] << '\n';
 
-  v.clear();
-  std::cout << v.front() << '\n';
+  if (!v.empty())
+    std::cout << v.front() << '\n';
 }
 
 int main() {
@@ -89,9 +90,7 @@ int main() {
 
   vectorIssues();
 
-  DataManager dm2 = dm;
-
-  std::cout << dm2.getValue(2) << '\n';
+  std::cout << dm.getValue(2) << '\n';
 
   return 0;
 }
