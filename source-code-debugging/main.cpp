@@ -17,8 +17,10 @@ void printSum() {
 
   if (line != NULL) strtok(line, "\n");
 
+  buf = (char*)malloc(64);
   sprintf(buf, "sum=%d", sum_to_n(atoi(line)));
   printf("%s\n", buf);
+  free(buf);
 }
 
 int main() {
